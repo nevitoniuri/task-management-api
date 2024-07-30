@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  postgres-local:
+    image: postgres:14.6
+    container_name: task-management-api-db
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_DB: task_management_api
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
