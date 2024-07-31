@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import {
   FilterTaskRequest,
-  TaskCreateRequest,
+  CreateTaskRequest,
   TaskStatus,
-  TaskUpdateRequest,
+  UpdateTaskRequest,
 } from './task.dto';
 import { v4 as uuid } from 'uuid';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -35,7 +35,7 @@ export class TaskService {
     return task;
   }
 
-  async createTask(task: TaskCreateRequest) {
+  async createTask(task: CreateTaskRequest) {
     const userEntity = await this.userService.findByIdOrThrow(task.userId);
     const newTask = new TaskEntity();
     newTask.id = uuid();
@@ -53,7 +53,7 @@ export class TaskService {
     await this.taskRepository.save(task);
   }
 
-  async updateTask(id: string, updateTask: TaskUpdateRequest) {
+  async updateTask(id: string, updateTask: UpdateTaskRequest) {
     const task = await this.findByIdOrThrow(id);
     task.title = updateTask.title ?? task.title;
     task.description = updateTask.description ?? task.description;
@@ -68,8 +68,9 @@ export class TaskService {
     }
   }
 
-  async findAll(params: FilterTaskRequest): Promise<TaskEntity[]> {
+  async filterByUser(params: FilterTaskRequest): Promise<TaskEntity[]> {
     const query = this.taskRepository.createQueryBuilder('task');
+    query.andWhere('task.user.id = :userId', { userId: params.userId });
     if (params.title) {
       query.andWhere('task.title LIKE :title', { title: `%${params.title}%` });
     }

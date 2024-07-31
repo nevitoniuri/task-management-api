@@ -10,9 +10,9 @@ import {
 } from '@nestjs/common';
 import {
   FilterTaskRequest,
-  TaskCreateRequest,
+  CreateTaskRequest,
   TaskResponse,
-  TaskUpdateRequest,
+  UpdateTaskRequest,
 } from './task.dto';
 import { TaskService } from './task.service';
 import { TaskEntity } from './task.entity';
@@ -22,13 +22,15 @@ export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Post()
-  async createTask(@Body() task: TaskCreateRequest) {
+  async createTask(@Body() task: CreateTaskRequest) {
     return this.taskService.createTask(task);
   }
 
   @Get()
-  async findAll(@Query() params: FilterTaskRequest): Promise<TaskResponse[]> {
-    return this.taskService.findAll(params).then((tasks) => {
+  async filterByUser(
+    @Query() params: FilterTaskRequest,
+  ): Promise<TaskResponse[]> {
+    return this.taskService.filterByUser(params).then((tasks) => {
       return tasks.map((task) => {
         return {
           id: task.id,
@@ -54,7 +56,7 @@ export class TaskController {
   @Put('/:id')
   async updateTask(
     @Param('id') id: string,
-    @Body() updateTask: TaskUpdateRequest,
+    @Body() updateTask: UpdateTaskRequest,
   ): Promise<TaskResponse> {
     return await this.taskService.updateTask(id, updateTask);
   }

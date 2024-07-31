@@ -23,7 +23,7 @@ export class TaskResponse {
   expirationDate: Date;
 }
 
-export class TaskCreateRequest {
+export class CreateTaskRequest {
   @IsString()
   @IsNotEmpty()
   title: string;
@@ -31,31 +31,36 @@ export class TaskCreateRequest {
   @MinLength(5)
   @MaxLength(512)
   @IsOptional()
-  description: string;
+  description?: string;
 
   @IsDateString()
   expirationDate: Date;
 
   @IsUUID()
+  @IsNotEmpty()
   userId: string;
 }
 
-export class TaskUpdateRequest {
+export class UpdateTaskRequest {
   @IsOptional()
   @IsString()
-  title: string;
+  title?: string;
 
   @IsOptional()
   @MinLength(5)
   @MaxLength(512)
-  description: string;
+  description?: string;
 
   @IsOptional()
   @IsDateString()
-  expirationDate: Date;
+  expirationDate?: Date;
 }
 
 export class FilterTaskRequest {
+  @IsUUID()
+  @IsNotEmpty()
+  userId: string;
+
   @IsOptional()
   @IsString()
   title?: string;
