@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { UserCreateRequest } from './user.dto';
@@ -19,7 +23,7 @@ export class UserService {
       },
     });
     if (!user) {
-      throw new ConflictException(`User with id ${id} not found`);
+      throw new NotFoundException(`User with id ${id} not found`);
     }
     return user;
   }
