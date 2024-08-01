@@ -1,17 +1,19 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { TaskStatus } from './task.dto';
 import { UserEntity } from '../user/user.entity';
 
 @Entity({ name: 'tasks' })
 export class TaskEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn('identity')
+  id: number;
 
   @JoinColumn({ name: 'user_id' })
   @ManyToOne(() => UserEntity)
@@ -28,4 +30,10 @@ export class TaskEntity {
 
   @Column({ name: 'expiration_date', type: 'timestamptz' })
   expirationDate: Date;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
+  updatedAt: Date;
 }

@@ -4,6 +4,6 @@ export class UserCreateRequest {
 }
 
 export class UserResponse {
-  id: string;
+  id: number;
   username: string;
 }

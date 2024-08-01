@@ -4,7 +4,6 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  IsUUID,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -16,7 +15,7 @@ export enum TaskStatus {
 }
 
 export class TaskResponse {
-  id: string;
+  id: number;
   title: string;
   description: string;
   status: TaskStatus;
@@ -34,11 +33,11 @@ export class CreateTaskRequest {
   description?: string;
 
   @IsDateString()
+  @IsNotEmpty()
   expirationDate: Date;
 
-  @IsUUID()
   @IsNotEmpty()
-  userId: string;
+  userId: number;
 }
 
 export class UpdateTaskRequest {
@@ -57,9 +56,8 @@ export class UpdateTaskRequest {
 }
 
 export class FilterTaskRequest {
-  @IsUUID()
   @IsNotEmpty()
-  userId: string;
+  userId: number;
 
   @IsOptional()
   @IsString()

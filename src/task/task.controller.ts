@@ -15,7 +15,6 @@ import {
   UpdateTaskRequest,
 } from './task.dto';
 import { TaskService } from './task.service';
-import { TaskEntity } from './task.entity';
 
 @Controller('tasks')
 export class TaskController {
@@ -43,26 +42,21 @@ export class TaskController {
     });
   }
 
-  @Get('/:id')
-  async findById(@Param('id') id: string): Promise<TaskEntity> {
-    return this.taskService.findByIdOrThrow(id);
-  }
-
   @Put('/:id/complete')
-  async completeTask(@Param('id') id: string) {
+  async completeTask(@Param('id') id: number) {
     await this.taskService.completeTask(id);
   }
 
   @Put('/:id')
   async updateTask(
-    @Param('id') id: string,
+    @Param('id') id: number,
     @Body() updateTask: UpdateTaskRequest,
   ): Promise<TaskResponse> {
     return await this.taskService.updateTask(id, updateTask);
   }
 
   @Delete('/:id')
-  async deleteTask(@Param('id') id: string) {
+  async deleteTask(@Param('id') id: number) {
     await this.taskService.deleteTask(id);
   }
 }

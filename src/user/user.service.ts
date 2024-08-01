@@ -6,7 +6,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { UserCreateRequest } from './user.dto';
-import { v4 as uuid } from 'uuid';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -16,7 +15,7 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async findByIdOrThrow(id: string): Promise<UserEntity> {
+  async findByIdOrThrow(id: number): Promise<UserEntity> {
     const user = await this.userRepository.findOne({
       where: {
         id: id,
@@ -42,7 +41,6 @@ export class UserService {
       throw new ConflictException('User with this username already exists');
     }
     const newUser = new UserEntity();
-    newUser.id = uuid();
     newUser.username = user.username;
     newUser.password = user.password;
     return await this.userRepository.save(newUser);
