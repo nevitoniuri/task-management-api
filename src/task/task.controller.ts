@@ -13,7 +13,6 @@ import {
   CreateTaskRequest,
   TaskResponse,
   UpdateTaskRequest,
-  TaskStatus,
 } from './task.dto';
 import { TaskService } from './task.service';
 import { TaskEntity } from './task.entity';
