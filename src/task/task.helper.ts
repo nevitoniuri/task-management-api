@@ -2,7 +2,6 @@ import { TaskEntity } from './task.entity';
 import { TaskResponse } from './task.dto';
 
 export class TaskHelper {
-
   static toTaskResponse(taskEntity: TaskEntity) {
     const taskResponse = new TaskResponse();
     taskResponse.id = taskEntity.id;
