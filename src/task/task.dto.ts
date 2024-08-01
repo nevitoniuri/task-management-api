@@ -21,6 +21,9 @@ export class TaskResponse {
   description: string;
   status: TaskStatus;
   expirationDate: Date;
+  expired: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export class CreateTaskRequest {

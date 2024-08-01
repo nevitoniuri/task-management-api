@@ -13,9 +13,11 @@ import {
   CreateTaskRequest,
   TaskResponse,
   UpdateTaskRequest,
+  TaskStatus,
 } from './task.dto';
 import { TaskService } from './task.service';
 import { TaskEntity } from './task.entity';
+import { TaskHelper } from './task.helper';
 
 @Controller('tasks')
 export class TaskController {
@@ -27,19 +29,9 @@ export class TaskController {
   }
 
   @Get()
-  async filterByUser(
-    @Query() params: FilterTaskRequest,
-  ): Promise<TaskResponse[]> {
+  async filterByUser(@Query() params: FilterTaskRequest) {
     return this.taskService.filterByUser(params).then((tasks) => {
-      return tasks.map((task) => {
-        return {
-          id: task.id,
-          title: task.title,
-          description: task.description,
-          status: task.status,
-          expirationDate: task.expirationDate,
-        };
-      });
+      return tasks.map((task) => TaskHelper.toTaskResponse(task));
     });
   }
 
@@ -58,7 +50,8 @@ export class TaskController {
     @Param('id') id: string,
     @Body() updateTask: UpdateTaskRequest,
   ): Promise<TaskResponse> {
-    return await this.taskService.updateTask(id, updateTask);
+    const taskEntity = await this.taskService.updateTask(id, updateTask);
+    return TaskHelper.toTaskResponse(taskEntity);
   }
 
   @Delete('/:id')
