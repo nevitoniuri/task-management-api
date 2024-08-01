@@ -12,6 +12,8 @@ export class TasksTable1722360418651 implements MigrationInterface {
             description     varchar(512),
             status          varchar(20)  NOT NULL,
             expiration_date timestamptz  NOT NULL,
+            created_at      timestamptz  NOT NULL DEFAULT now(),
+            updated_at      timestamptz  NOT NULL DEFAULT now(),
             CONSTRAINT task_pk PRIMARY KEY (id),
             CONSTRAINT task_user_fk FOREIGN KEY (user_id) REFERENCES users (id)
         )`);

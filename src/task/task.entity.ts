@@ -1,9 +1,9 @@
 import {
-  Column,
+  Column, CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn, UpdateDateColumn,
 } from 'typeorm';
 import { TaskStatus } from './task.dto';
 import { UserEntity } from '../user/user.entity';
@@ -13,8 +13,8 @@ export class TaskEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @JoinColumn({ name: 'user_id' })
   @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 
   @Column({ type: 'varchar', length: 256 })
@@ -28,4 +28,10 @@ export class TaskEntity {
 
   @Column({ name: 'expiration_date', type: 'timestamptz' })
   expirationDate: Date;
+
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz' })
+  updatedAt: Date;
 }
