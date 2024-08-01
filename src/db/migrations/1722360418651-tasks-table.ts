@@ -6,7 +6,7 @@ export class TasksTable1722360418651 implements MigrationInterface {
     await queryRunner.query(`
         CREATE TABLE tasks
         (
-            id              uuid         NOT NULL DEFAULT uuid_generate_v4(),
+            id              uuid PRIMARY KEY      DEFAULT uuid_generate_v4(),
             user_id         uuid         NOT NULL,
             title           varchar(256) NOT NULL,
             description     varchar(512),
@@ -14,7 +14,6 @@ export class TasksTable1722360418651 implements MigrationInterface {
             expiration_date timestamptz  NOT NULL,
             created_at      timestamptz  NOT NULL DEFAULT now(),
             updated_at      timestamptz  NOT NULL DEFAULT now(),
-            CONSTRAINT task_pk PRIMARY KEY (id),
             CONSTRAINT task_user_fk FOREIGN KEY (user_id) REFERENCES users (id)
         )`);
   }

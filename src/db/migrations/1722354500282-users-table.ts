@@ -6,12 +6,11 @@ export class UsersTable1722354500282 implements MigrationInterface {
     await queryRunner.query(`
         CREATE TABLE users
         (
-            id         uuid         NOT NULL DEFAULT uuid_generate_v4(),
+            id         uuid PRIMARY KEY      DEFAULT uuid_generate_v4(),
             username   varchar(256) NOT NULL,
             password   varchar(256) NOT NULL,
             created_at timestamptz  NOT NULL DEFAULT now(),
-            updated_at timestamptz  NOT NULL DEFAULT now(),
-            CONSTRAINT users_pk PRIMARY KEY (id)
+            updated_at timestamptz  NOT NULL DEFAULT now()
         )`);
   }
 
