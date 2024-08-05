@@ -5,7 +5,6 @@ import { UserService } from '../user/user.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { CreateTaskRequest, TaskStatus } from './task.dto';
-import { v4 as uuid } from 'uuid';
 import { UserEntity } from '../user/user.entity';
 import { NotFoundException } from '@nestjs/common';
 
@@ -91,7 +90,7 @@ describe('TaskService', () => {
       const mockUser = new UserEntity();
       mockUser.id = '1';
       const mockTaskEntity = {
-        id: uuid(),
+        id: '1',
         user: mockUser,
         title: createTaskRequest.title,
         description: createTaskRequest.description,
