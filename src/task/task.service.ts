@@ -5,7 +5,7 @@ import {
   TaskStatus,
   UpdateTaskRequest,
 } from './task.dto';
-import { v4 as uuidV4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TaskEntity } from './task.entity';
 import { Repository } from 'typeorm';
@@ -38,7 +38,7 @@ export class TaskService {
   async createTask(task: CreateTaskRequest) {
     const userEntity = await this.userService.findByIdOrThrow(task.userId);
     const newTask = new TaskEntity();
-    newTask.id = uuidV4();
+    newTask.id = randomUUID();
     newTask.user = userEntity;
     newTask.title = task.title;
     newTask.description = task.description;

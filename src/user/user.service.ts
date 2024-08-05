@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
 import { UserCreateRequest } from './user.dto';
-import { v4 as uuidV4 } from 'uuid';
+import { randomUUID } from 'crypto';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -42,7 +42,7 @@ export class UserService {
       throw new ConflictException('User with this username already exists');
     }
     const newUser = new UserEntity();
-    newUser.id = uuidV4();
+    newUser.id = randomUUID();
     newUser.username = user.username;
     newUser.password = user.password;
     return await this.userRepository.save(newUser);
