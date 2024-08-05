@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -15,7 +16,6 @@ import {
   UpdateTaskRequest,
 } from './task.dto';
 import { TaskService } from './task.service';
-import { TaskEntity } from './task.entity';
 import { TaskHelper } from './task.helper';
 
 @Controller('tasks')
@@ -34,19 +34,14 @@ export class TaskController {
     });
   }
 
-  @Get('/:id')
-  async findById(@Param('id') id: string): Promise<TaskEntity> {
-    return this.taskService.findByIdOrThrow(id);
-  }
-
   @Put('/:id/complete')
-  async completeTask(@Param('id') id: string) {
+  async completeTask(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.taskService.completeTask(id);
   }
 
   @Put('/:id')
   async updateTask(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateTask: UpdateTaskRequest,
   ): Promise<TaskResponse> {
     const taskEntity = await this.taskService.updateTask(id, updateTask);
@@ -54,7 +49,7 @@ export class TaskController {
   }
 
   @Delete('/:id')
-  async deleteTask(@Param('id') id: string) {
+  async deleteTask(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.taskService.deleteTask(id);
   }
 }

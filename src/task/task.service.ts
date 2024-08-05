@@ -62,9 +62,8 @@ export class TaskService {
   }
 
   async deleteTask(id: string): Promise<void> {
-    this.findByIdOrThrow(id).then((task) =>
-      this.taskRepository.delete(task.id),
-    );
+    const taskEntity = await this.findByIdOrThrow(id);
+    await this.taskRepository.delete(taskEntity.id);
   }
 
   async filterByUser(params: FilterTaskRequest): Promise<TaskEntity[]> {
