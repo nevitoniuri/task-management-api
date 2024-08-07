@@ -29,50 +29,50 @@ export class TaskResponse {
 export class CreateTaskRequest {
   @IsString()
   @IsNotEmpty()
-  title: string;
+  readonly title: string;
 
   @MinLength(5)
   @MaxLength(512)
   @IsOptional()
-  description?: string;
+  readonly description?: string;
 
   @IsDateString()
-  expirationDate: Date;
+  readonly expirationDate: Date;
 
   @IsUUID()
   @IsNotEmpty()
-  userId: string;
+  readonly userId: string;
 }
 
 export class UpdateTaskRequest {
   @IsOptional()
   @IsString()
-  title?: string;
+  readonly title?: string;
 
   @IsOptional()
   @MinLength(5)
   @MaxLength(512)
-  description?: string;
+  readonly description?: string;
 
   @IsOptional()
   @IsDateString()
-  expirationDate?: Date;
+  readonly expirationDate?: Date;
 }
 
 export class FilterTaskRequest {
   @IsUUID()
   @IsNotEmpty()
-  userId: string;
+  readonly userId: string;
 
   @IsOptional()
   @IsString()
-  title?: string;
+  readonly title?: string;
 
   @IsOptional()
   @IsEnum(TaskStatus)
-  status?: TaskStatus;
+  readonly status?: TaskStatus;
 
   @IsOptional()
   @IsDateString()
-  expirationDate?: Date;
+  readonly expirationDate?: Date;
 }
