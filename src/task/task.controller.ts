@@ -12,7 +12,6 @@ import {
 import {
   FilterTaskRequest,
   CreateTaskRequest,
-  TaskResponse,
   UpdateTaskRequest,
 } from './task.dto';
 import { TaskService } from './task.service';
@@ -43,9 +42,8 @@ export class TaskController {
   async updateTask(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateTask: UpdateTaskRequest,
-  ): Promise<TaskResponse> {
-    const taskEntity = await this.taskService.updateTask(id, updateTask);
-    return TaskHelper.toTaskResponse(taskEntity);
+  ): Promise<void> {
+    await this.taskService.updateTask(id, updateTask);
   }
 
   @Delete('/:id')
