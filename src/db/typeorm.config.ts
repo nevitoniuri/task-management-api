@@ -1,17 +1,25 @@
-import { config } from 'dotenv';
 import { DataSource, DataSourceOptions } from 'typeorm';
-import 'dotenv/config';
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
-config(); //TODO: retirar
-const dataSourceOptions: DataSourceOptions = {
-  type: 'postgres',
-  host: process.env.DB_HOST,
-  port: +process.env.DB_PORT,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  entities: ['dist/**/*.entity{.ts,.js}'],
-  migrations: [__dirname + '/migrations/*{.ts,.js}'],
-};
+@Injectable()
+export class TypeOrmConfigService {
+  constructor(private configService: ConfigService) {}
 
-export default new DataSource(dataSourceOptions);
+  createTypeOrmOptions(): DataSourceOptions {
+    return {
+      type: 'postgres',
+      host: this.configService.get<string>('db.host'),
+      port: this.configService.get<number>('db.port'),
+      username: this.configService.get<string>('db.username'),
+      password: this.configService.get<string>('db.password'),
+      database: this.configService.get<string>('db.name'),
+      entities: ['dist/**/*.entity{.ts,.js}'],
+      migrations: [__dirname + '/migrations/*{.ts,.js}'],
+    };
+  }
+}
+
+export default new DataSource(
+  new TypeOrmConfigService(new ConfigService()).createTypeOrmOptions(),
+);
