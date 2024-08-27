@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm';
-import { TaskEntity } from './task.entity';
+import { TaskEntity } from './model/task.entity';
 import { TaskService } from './task.service';
 import { UserService } from '../user/user.service';
 import { Test, TestingModule } from '@nestjs/testing';

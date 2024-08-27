@@ -9,25 +9,23 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import {
-  FilterTaskRequest,
-  CreateTaskRequest,
-  UpdateTaskRequest,
-} from './task.dto';
 import { TaskService } from './task.service';
 import { TaskHelper } from './task.helper';
+import { TaskCreateRequest } from './dto/task-create.dto';
+import { TaskFilterRequest } from './dto/task-filter.dto';
+import { TaskUpdateRequest } from './dto/task-update.dto';
 
 @Controller('tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
 
   @Post()
-  async createTask(@Body() task: CreateTaskRequest) {
+  async createTask(@Body() task: TaskCreateRequest) {
     return this.taskService.createTask(task);
   }
 
   @Get()
-  async filterByUser(@Query() params: FilterTaskRequest) {
+  async filterByUser(@Query() params: TaskFilterRequest) {
     return this.taskService.filterByUser(params).then((tasks) => {
       return tasks.map((task) => TaskHelper.toTaskResponse(task));
     });
@@ -41,7 +39,7 @@ export class TaskController {
   @Put('/:id')
   async updateTask(
     @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() updateTask: UpdateTaskRequest,
+    @Body() updateTask: TaskUpdateRequest,
   ): Promise<void> {
     await this.taskService.updateTask(id, updateTask);
   }

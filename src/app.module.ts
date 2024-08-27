@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './config/logging.interceptor';
+import { GraphqlModule } from './graphql/graphql.module';
 import * as fs from 'fs';
 import * as yaml from 'yaml';
 
@@ -23,13 +24,14 @@ import * as yaml from 'yaml';
     TaskModule,
     DbModule,
     UserModule,
+    GraphqlModule,
   ],
   controllers: [],
   providers: [
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor,
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useClass: LoggingInterceptor,
+    // },
   ],
 })
 export class AppModule {}

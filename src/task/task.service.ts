@@ -1,15 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import {
-  FilterTaskRequest,
-  CreateTaskRequest,
-  TaskStatus,
-  UpdateTaskRequest,
-} from './task.dto';
+
 import { randomUUID } from 'crypto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TaskEntity } from './task.entity';
+import { TaskEntity } from './model/task.entity';
 import { Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
+import { TaskCreateRequest } from './dto/task-create.dto';
+import { TaskStatus } from './model/task-status.enum';
+import { TaskUpdateRequest } from './dto/task-update.dto';
+import { TaskFilterRequest } from './dto/task-filter.dto';
 
 @Injectable()
 export class TaskService {
@@ -35,7 +34,7 @@ export class TaskService {
     return task;
   }
 
-  async createTask(task: CreateTaskRequest) {
+  async createTask(task: TaskCreateRequest) {
     const userEntity = await this.userService.findByIdOrThrow(task.userId);
     const newTask = new TaskEntity();
     newTask.id = randomUUID();
@@ -53,7 +52,7 @@ export class TaskService {
     await this.taskRepository.save(task);
   }
 
-  async updateTask(id: string, updateTask: UpdateTaskRequest) {
+  async updateTask(id: string, updateTask: TaskUpdateRequest) {
     const task = await this.findByIdOrThrow(id);
     task.title = updateTask.title ?? task.title;
     task.description = updateTask.description ?? task.description;
@@ -66,7 +65,7 @@ export class TaskService {
     await this.taskRepository.delete(taskEntity.id);
   }
 
-  async filterByUser(params: FilterTaskRequest): Promise<TaskEntity[]> {
+  async filterByUser(params: TaskFilterRequest): Promise<TaskEntity[]> {
     const query = this.taskRepository.createQueryBuilder('task');
     query.andWhere('task.user.id = :userId', { userId: params.userId });
     if (params.title) {
